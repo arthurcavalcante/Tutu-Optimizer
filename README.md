@@ -113,6 +113,6 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ---
 
-Made with ❤️ by **Tutu**
+Made with ❤️ by **Arthur Cavalcante**
 
 ⭐ If this project helped you, leave a star — it means a lot!
