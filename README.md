@@ -5,7 +5,7 @@
    ██║   ██║   ██║   ██║   ██║   ██║╚════██║
    ██║   ╚██████╔╝   ██║   ╚██████╔╝███████║
    ╚═╝    ╚═════╝    ╚═╝    ╚═════╝ ╚══════╝
-         OPTIMIZER  ⚡  FOR WINDOWS 11
+         OPTIMIZER  ⚡  FOR WINDOWS 10 & 11
 ```
 
 # Tutu's Optimizer
