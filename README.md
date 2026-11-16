@@ -107,3 +107,5 @@ Contribuições são bem-vindas. Para relatar um problema, abra uma [issue](http
 Distribuído sob a licença [Apache-2.0](LICENSE).
 
 Desenvolvido com ❤️ por [Arthur Cavalcante](https://github.com/arthurcavalcante).
+
+Foi feito o uso de IA para desenvolvimento do código, mas o código base foi feito totalmente a mão!
