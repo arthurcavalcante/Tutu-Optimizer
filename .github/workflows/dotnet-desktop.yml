@@ -61,11 +61,13 @@ jobs:
       Wap_Project_Directory: your-wap-project-directory-name    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       Wap_Project_Path: your-wap-project-path                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -73,19 +75,23 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
 
+
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test
+
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
