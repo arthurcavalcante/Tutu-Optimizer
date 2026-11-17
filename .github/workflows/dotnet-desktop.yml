@@ -2,16 +2,93 @@ name: Build Tutu Optimizer
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
       - name: Build
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $workspace = $env:GITHUB_WORKSPACE
+
+          $buildScripts = @(
+            Get-ChildItem -LiteralPath $workspace -Recurse -File -Filter 'build.ps1'
+          )
+
+          if ($buildScripts.Count -gt 1) {
+            $buildScripts | ForEach-Object { Write-Host $_.FullName }
+            throw 'Encontrei mais de um build.ps1. Configure o caminho correto no workflow.'
+          }
+
+          if ($buildScripts.Count -eq 1) {
+            $buildScript = $buildScripts[0].FullName
+            Write-Host "Executando: $buildScript"
+            & $buildScript
+
+            if ($null -ne $LASTEXITCODE -and $LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+
+            exit 0
+          }
+
+          $solutions = @(
+            Get-ChildItem -LiteralPath $workspace -Recurse -File |
+              Where-Object { $_.Extension -in @('.sln', '.slnx') }
+          )
+
+          if ($solutions.Count -gt 1) {
+            $solutions | ForEach-Object { Write-Host $_.FullName }
+            throw 'Encontrei mais de uma solução. Configure o caminho correto no workflow.'
+          }
+
+          if ($solutions.Count -eq 1) {
+            Write-Host "Compilando: $($solutions[0].FullName)"
+            msbuild $solutions[0].FullName /restore /p:Configuration=Release
+
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+
+            exit 0
+          }
+
+          $projects = @(
+            Get-ChildItem -LiteralPath $workspace -Recurse -File -Filter '*.csproj'
+          )
+
+          if ($projects.Count -gt 1) {
+            $projects | ForEach-Object { Write-Host $_.FullName }
+            throw 'Encontrei mais de um projeto C#. Configure o caminho correto no workflow.'
+          }
+
+          if ($projects.Count -eq 1) {
+            Write-Host "Compilando: $($projects[0].FullName)"
+            msbuild $projects[0].FullName /restore /p:Configuration=Release
+
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+
+            exit 0
+          }
+
+          Get-ChildItem -LiteralPath $workspace -Recurse -File |
+            Where-Object { $_.Extension -in @('.ps1', '.bat', '.cmd', '.sln', '.slnx', '.csproj') } |
+            ForEach-Object { Write-Host $_.FullName }
+
+          throw 'Não encontrei build.ps1, .sln, .slnx ou .csproj para compilar.'
