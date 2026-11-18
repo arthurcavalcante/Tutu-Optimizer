@@ -37,42 +37,12 @@ O **Tutu's Optimizer** é um aplicativo local para centralizar ajustes, manuten�
 - criação de ponto de restauração, logs e reversão de 34 ajustes;
 - interface em modo claro ou escuro.
 
-### Distribuição dos ajustes
-
-```mermaid
-pie showData
-    title Otimizações por categoria
-    "Sistema" : 10
-    "Serviços" : 7
-    "Privacidade" : 6
-    "Rede" : 5
-    "Periféricos" : 5
-    "Jogos" : 2
-```
-
-## Requisitos
-
-- Windows 10 ou Windows 11 (64-bit recomendado);
-- privilégios de Administrador;
-- PowerShell e WMI para determinados recursos;
-- `nvidia-smi` é opcional e usado para obter alguns dados de placas NVIDIA.
-
 ## Baixar e executar
 
 1. Acesse [Releases](https://github.com/arthurcavalcante/Tutu-Optimizer/releases) e baixe a versão mais recente.
 2. Extraia os arquivos, se necessário, e abra `Tutu's Optimizer.exe`.
 3. Aceite a solicitação do UAC.
 4. Revise os ajustes e crie um ponto de restauração antes de aplicá-los.
-
-### Compilar o projeto
-
-```powershell
-git clone https://github.com/arthurcavalcante/Tutu-Optimizer.git
-cd Tutu-Optimizer
-powershell -ExecutionPolicy Bypass -File .uild.ps1
-```
-
-O script de compilação usa o `csc.exe` do .NET Framework instalado no Windows.
 
 ## Uso recomendado
 
@@ -100,7 +70,8 @@ Contribuições são bem-vindas. Para relatar um problema, abra uma [issue](http
 - versão do Windows e do Tutu's Optimizer;
 - CPU, GPU e RAM;
 - ação realizada e resultado esperado/obtido;
-- log relevante.
+- log relevante;
+- bugs de otimização.
 
 ## Licença e autor
 
